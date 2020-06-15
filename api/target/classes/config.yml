@@ -1,0 +1,5 @@
+kumuluzee:
+  name: fs-sensor
+  env:
+    name: dev
+  version: 1.0.0
