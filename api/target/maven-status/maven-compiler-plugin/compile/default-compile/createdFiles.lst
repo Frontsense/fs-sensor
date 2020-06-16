@@ -1,1 +1,2 @@
-com\mag\frontsense\App.class
+com\mag\frontsense\resources\SensorResource.class
+com\mag\frontsense\SensorApplication.class

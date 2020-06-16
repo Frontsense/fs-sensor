@@ -1,1 +1,2 @@
-com\mag\frontsense\App.class
+com\mag\frontsense\models\MongoSensor.class
+com\mag\frontsense\models\Sensor.class
