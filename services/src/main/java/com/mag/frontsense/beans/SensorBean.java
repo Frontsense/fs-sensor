@@ -2,6 +2,7 @@ package com.mag.frontsense.beans;
 
 import com.mag.frontsense.models.MongoSensor;
 import com.mag.frontsense.models.Sensor;
+import org.json.JSONObject;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -27,5 +28,11 @@ public class SensorBean {
         MongoSensor ms = new MongoSensor();
 
         return ms.testReadings();
+    }
+
+    public void insertReadings(JSONObject sensorReadings) {
+        MongoSensor ms = new MongoSensor();
+
+        ms.insertReadings(sensorReadings);
     }
 }
