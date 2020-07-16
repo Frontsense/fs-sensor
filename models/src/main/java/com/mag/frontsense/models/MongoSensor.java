@@ -26,7 +26,7 @@ public class MongoSensor {
         return new MongoClient(uri);
     }
 
-    public List<Sensor> testReadings() {
+    public List<Sensor> allReadings() {
         MongoClient client = connectDB();
         MongoDatabase db = client.getDatabase(DBName);
         MongoCollection<Document> sensorCollection = db.getCollection(DBCollection);
@@ -37,7 +37,7 @@ public class MongoSensor {
             Sensor currSensor = new Sensor(curr.getString("sensorType"),
                                     curr.getInteger("userId"),
                                     curr.getString("readings"),
-                                    curr.getDouble("lang"),
+                                    curr.getDouble("lng"),
                                     curr.getDouble("lat"),
                                     new Date(((org.bson.BsonTimestamp)curr.get("timestamp")).getValue()),
                                     curr.getInteger("taskId")
@@ -49,15 +49,38 @@ public class MongoSensor {
         return result;
     }
 
-    public void insertReadings(JSONObject sensorReadings) {
+    public JSONObject insertReadings(JSONObject sensorReadings) {
         MongoClient client = connectDB();
         MongoDatabase db = client.getDatabase(DBName);
         MongoCollection<Document> sensorCollection = db.getCollection(DBCollection);
 
+        JSONObject response = new JSONObject();
+
         Document newReadings = Document.parse(sensorReadings.toString());
-        long timestamp = (Long) newReadings.get("timestamp");
-        newReadings.remove("timestamp");
-        newReadings.append("timestamp", new BsonTimestamp(timestamp));
-        sensorCollection.insertOne(newReadings);
+
+        for(Document row : newReadings.getList("sensorReadings", Document.class)) {
+            Document readings = new Document();
+
+            readings.put("sensorType", newReadings.getString("sensorType"));
+            readings.put("userId", newReadings.getInteger("userId"));
+            readings.put("taskId", newReadings.getInteger("taskId"));
+
+            readings.put("readings", row.getString("readings"));
+            readings.put("lat", row.getDouble("lat"));
+            readings.put("lng", row.getDouble("lng"));
+
+            long timestamp = (Long) row.get("timestamp");
+            readings.put("timestamp", new BsonTimestamp(timestamp));
+
+            try {
+                sensorCollection.insertOne(readings);
+            } catch (Exception e) {
+                response.put("error", "Error inserting readings.");
+                return response;
+            }
+        }
+
+        response.put("success", "Readings inserted successfully.");
+        return response;
     }
 }

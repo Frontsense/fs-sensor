@@ -24,6 +24,10 @@ public class SensorResource {
     @Path("/test")
     public Response testRest() {
         return Response.ok("Sensor api is up and running")
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+                .header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
                 .build();
     }
 
@@ -33,14 +37,34 @@ public class SensorResource {
         List<Sensor> readings = sensorBean.listReadings();
 
         return Response.ok(readings)
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+                .header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/insert")
+    public Response optionsInsert() {
+        return Response.ok()
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+                .header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
                 .build();
     }
 
     @POST
     @Path("/insert")
     public Response insertReadings(String readings) {
-        sensorBean.insertReadings(new JSONObject(readings));
+        JSONObject response = sensorBean.insertReadings(new JSONObject(readings));
 
-        return Response.ok().build();
+        return Response.ok(response.toString())
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Credentials", "true")
+                .header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+                .header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept")
+                .build();
     }
 }

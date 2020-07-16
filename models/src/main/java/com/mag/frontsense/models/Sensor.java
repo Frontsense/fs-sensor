@@ -9,16 +9,16 @@ public class Sensor {
     private String sensorType;
     private Integer userId;
     private String readings;
-    private double lang;
+    private double lng;
     private double lat;
     private Date timestamp;
     private Integer taskId;
 
-    Sensor(String sensorType, Integer userId, String readings, double lang, double lat, Date timestamp, Integer taskId) {
+    Sensor(String sensorType, Integer userId, String readings, double lng, double lat, Date timestamp, Integer taskId) {
         this.sensorType = sensorType;
         this.userId = userId;
         this.readings = readings;
-        this.lang = lang;
+        this.lng = lng;
         this.lat = lat;
         this.timestamp = timestamp;
         this.taskId = taskId;
@@ -48,12 +48,12 @@ public class Sensor {
         this.readings = readings;
     }
 
-    public double getLang() {
-        return lang;
+    public double getLng() {
+        return lng;
     }
 
-    public void setLang(double lang) {
-        this.lang = lang;
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public double getLat() {

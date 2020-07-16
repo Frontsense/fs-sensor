@@ -27,12 +27,12 @@ public class SensorBean {
     public List<Sensor> listReadings() {
         MongoSensor ms = new MongoSensor();
 
-        return ms.testReadings();
+        return ms.allReadings();
     }
 
-    public void insertReadings(JSONObject sensorReadings) {
+    public JSONObject insertReadings(JSONObject sensorReadings) {
         MongoSensor ms = new MongoSensor();
 
-        ms.insertReadings(sensorReadings);
+        return ms.insertReadings(sensorReadings);
     }
 }
